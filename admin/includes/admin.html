@@ -1,0 +1,245 @@
+<!-- <?php
+
+// Bắt đầu phiên đăng nhập
+session_start();
+
+    require_once "../config/config.php";
+
+    if (!isset($_SESSION['username'])) {
+    header("Location: login_admin.php");
+    exit();
+    }
+
+?> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ADMIN DASHBOARD</title>
+    <link rel="stylesheet" href="../assets/css/admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="../assets/js/javascript.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="head-logo">
+          <a href="index.php">
+            <div class="main-logo">
+              <div class="circle"></div>
+              <h1>BookHaven</h1>
+            </div>
+            <h2>Admin Dashboard</h2>
+          </a>
+          <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="head-search">
+          <input type="text" name="" id="" placeholder="Tìm kiếm..." />
+          <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <div class="head-notify">
+          <i class="fa-regular fa-bell"></i>
+          <i class="fa-regular fa-comment"></i>
+        </div>
+        <div class="head-info">
+          <div class="user-info">
+            <h1>Xin chào, Admin</h1>
+            <button class="btn-logout">Đăng xuất</button>
+            <!-- <?php
+                        if(isset($_SESSION['username'])) {
+                            if($_SESSION['role'] === 'admin') {
+                                echo "<h1>Xin chào, " . $_SESSION['username'] . "! </h1>";
+				                echo "<button class='btn-logout' onclick=\"dangXuat()\">Đăng xuất</button>";
+                            } else {
+                                header ("Location: ../home/index.php");
+                            }
+                        }else {
+                            echo "<button>Đăng nhập</button>";
+                        }
+                    ?> -->
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <sidebar>
+      <div class="sidebar-admin">
+        <h1>Tất cả</h1>
+        <nav>
+          <ul>
+            <li>
+              <a href="index.php"
+                ><i class="fa-solid fa-house"></i>Trang chủ Admin</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <h1>Quản lý Sản phẩm</h1>
+        <nav>
+          <ul>
+            <li>
+              <a href="quanlytaikhoan.php"
+                ><i class="fa-solid fa-users"></i>Tài khoản</a
+              >
+            </li>
+            <li>
+              <a href="quanlydanhmuc.php"
+                ><i class="fa-solid fa-list"></i>Danh mục</a
+              >
+            </li>
+            <li>
+              <a href="quanlysanpham.php"
+                ><i class="fa-solid fa-gift"></i>Sản phẩm</a
+              >
+            </li>
+            <li>
+              <a href="quanlydonhang.php"
+                ><i class="fa-brands fa-shopify"></i>Đơn hàng</a
+              >
+            </li>
+            <li>
+              <a href="quanlythongke.php"
+                ><i class="fa-brands fa-chart-line"></i>Thống kê</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <h1>Quản lý Bố cục Website</h1>
+        <nav>
+          <ul>
+            <li>
+              <a href="quanlyquangcao.php"
+                ><i class="fa-brands fa-adversal"></i>Quảng cáo và khuyến mãi</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </sidebar>
+
+    <article>
+      <section id="section-quanlysanpham">
+        <div class="add-product-container1">
+          <!-- <?php
+    
+                    if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
+                        $product_id = $_GET['id'];
+    
+                        // Truy vấn CSDL để lấy thông tin sản phẩm
+                        $sql = "SELECT * FROM books WHERE ID = '$product_id'";
+                        $result = mysqli_query($conn, $sql);
+    
+                        // Kiểm tra xem có dữ liệu trả về hay không
+                        if (mysqli_num_rows($result) > 0) {
+                            $product = mysqli_fetch_assoc($result);
+                    ?> -->
+
+          <form
+            id="qlsp-edit-form"
+            action=""
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <h1>Chỉnh sửa sản phẩm</h1>
+            <input
+              type="hidden"
+              name="product_id"
+              value="?php echo $product['ID']; ?>"
+            />
+            <h2>Thông tin</h2>
+            <label for="product_name">Tên</label>
+            <input
+              type="text"
+              class="form-control"
+              id="product_name"
+              name="product_name"
+              value="?php echo $product['Title']; ?>"
+              required
+            />
+
+            <label for="product_slug">Danh mục</label>
+            <select name="category_id" id="category_slug">
+              <!-- <?php
+                    // Lấy danh sách các danh mục từ database
+                    $sql = "SELECT * FROM categories";
+                    $result = mysqli_query($conn, $sql);
+    
+                    // Hiển thị danh sách các danh mục dưới dạng các tùy chọn trong thẻ select
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $selected = ($row['ID'] == $product['CategoryID']) ? 'selected' : '';
+                        echo '<option value="' . $row['Slug'] . '" ' . $selected . '>' . $row['Name'] . '</option>';
+                    }
+                    ?> -->
+            </select>
+            <br />
+            <label for="product_description">Mô tả</label>
+            <textarea
+              class="form-control"
+              id="product_description"
+              name="product_description"
+              required
+            >
+?php echo $product['Description']; ?></textarea
+            >
+            <label for="product_price">Giá</label>
+            <input
+              type="number"
+              class="form-control"
+              id="price-input"
+              name="product_price"
+              value="?php echo $product['Price']; ?>"
+              min="1000"
+              required
+            />
+            <h2>Hình ảnh mới</h2>
+            <label
+              id="choose-file"
+              for="imageInputEdit"
+              class="custom-file-upload"
+              ><i class="fa-solid fa-arrow-up-from-bracket"></i>Thêm ảnh</label
+            >
+            <input
+              type="file"
+              id="imageInputEdit"
+              name="images[]"
+              multiple
+              onchange="previewImageQLSPEdit(event)"
+            />
+            <div id="imagePreviewContainer-qlsp-edit"></div>
+
+            <div class="btn-edit-or-discard">
+              <button
+                type="button"
+                id="btn-discard-edit"
+                class="btn btn-primary"
+                onclick="cancelEditProducts()"
+              >
+                Trở về
+              </button>
+              <button type="submit" id="btn-edit">Lưu</button>
+            </div>
+          </form>
+          <!-- <?php
+                    } else {
+                        echo "Không tìm thấy sản phẩm.";
+                    }
+                }
+                ?> -->
+        </div>
+      </section>
+    </article>
+  </body>
+</html>
